@@ -199,8 +199,21 @@ def block_airship() -> str:
     feas = s["feasible_time_pct_by_level"]
     feas_tbl = ("| Level | Time wind is within airspeed limit |\n|---|---|\n"
                 + "\n".join(f"| {k} | {v:.0f}% |" for k, v in feas.items()))
-    return (f"Airspeed limit assumed: **{s['max_airspeed_ms']:g} m/s**.\n\n"
-            + tbl + "\n\n" + feas_tbl)
+    out = (f"Airspeed limit assumed: **{s['max_airspeed_ms']:g} m/s**.\n\n"
+           + tbl + "\n\n" + feas_tbl)
+
+    sc = s.get("scenarios")
+    if sc:
+        out += (
+            f"\n\nEvery possible start time in the test period was then flown as "
+            f"a separate {sc['mission_days']:.0f}-day mission "
+            f"({sc['n']} scenarios), counting success as holding within "
+            f"{sc['hold_radius_km']:.0f} km.\n\n"
+            "| Controller | Missions held on station |\n|---|---|\n"
+            f"| Perfect knowledge | {sc['success_rate_pct_perfect']:.0f}% |\n"
+            f"| Persistence | {sc['success_rate_pct_persist']:.0f}% |\n"
+            f"| LSTM forecast | {sc['success_rate_pct_lstm']:.0f}% |")
+    return out
 
 
 def block_errors() -> str:

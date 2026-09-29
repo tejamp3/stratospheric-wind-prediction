@@ -25,6 +25,14 @@
   "10 hPa": 50.21669708029197,
   "best of three": 69.97034671532847
  },
+ "scenarios": {
+  "n": 158,
+  "mission_days": 5.0,
+  "hold_radius_km": 200.0,
+  "success_rate_pct_perfect": 53.2,
+  "success_rate_pct_lstm": 9.5,
+  "success_rate_pct_persist": 29.1
+ },
  "per_horizon_drift": [
   {
    "horizon_h": 6,

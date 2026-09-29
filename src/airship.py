@@ -187,6 +187,160 @@ def fig_trajectories(tracks: dict[str, np.ndarray], days: float, max_airspeed: f
     viz.finish(fig, C.FIGURES / "airship_trajectories.png", viz.SOURCE_NOTE)
 
 
+# --------------------------------------------------- 3. deployment scenarios
+def scenario_scan(pred, true, base, times, max_airspeed: float,
+                  days: float = 5.0, stride_h: int = 24) -> pd.DataFrame:
+    """Simulate a deployment starting at every candidate time in the test period.
+
+    One simulated window says what happened once. An operator needs the
+    distribution: deploy on an arbitrary day and how likely is the mission to
+    hold station? Each start time becomes one scenario, flown under all three
+    controllers, so the answer is a distribution rather than an anecdote.
+    """
+    nsteps = int(days * 24 / C.STEP_HOURS)
+    stride = max(1, stride_h // C.STEP_HOURS)
+    k6 = C.HORIZONS.index(6)
+
+    rows = []
+    for start in range(0, len(pred) - nsteps - 1, stride):
+        sel = slice(start, start + nsteps)
+        wu, wv = true[sel, k6, 0], true[sel, k6, 1]
+        mean_wind = float(M.speed(wu, wv).mean())
+        row = {"start": times[start], "mean_wind_ms": mean_wind,
+               "feasible": bool(mean_wind <= max_airspeed)}
+        for name, pu, pv in (("perfect", wu, wv),
+                             ("lstm", pred[sel, k6, 0], pred[sel, k6, 1]),
+                             ("persist", base[sel, k6, 0], base[sel, k6, 1])):
+            t = simulate_track(wu, wv, pu, pv, max_airspeed)
+            r = np.hypot(t[:, 0], t[:, 1])
+            row[f"{name}_max_km"] = float(r.max())
+            row[f"{name}_final_km"] = float(r[-1])
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def fig_scenarios(scan: pd.DataFrame, max_airspeed: float, days: float,
+                  hold_km: float = 200.0):
+    """Two views of the scenario scan: when to deploy, and how often it works."""
+    import matplotlib.pyplot as plt
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(12.6, 4.6),
+                                 gridspec_kw={"width_ratios": [1.7, 1]})
+
+    # Perfect knowledge reaches genuinely zero offset whenever the wind stays
+    # under the airspeed limit, which a log axis cannot draw. Clipping to 1 km
+    # keeps those stretches visible as a floor instead of spikes off the bottom.
+    floor = 1.0
+    a1.plot(scan.start, scan.lstm_max_km.clip(lower=floor), color=viz.PREDICTED,
+            label="LSTM forecast")
+    a1.plot(scan.start, scan.persist_max_km.clip(lower=floor), color=viz.BASELINE,
+            label="Persistence")
+    a1.plot(scan.start, scan.perfect_max_km.clip(lower=floor), color=viz.MUTED,
+            lw=1.6, label="Perfect knowledge")
+    a1.set_ylim(bottom=floor * 0.8)
+    a1.axhline(hold_km, color=viz.INK, ls="--", lw=1.3)
+    a1.text(0.005, hold_km, f" {hold_km:.0f} km hold radius",
+            transform=a1.get_yaxis_transform(), ha="left", va="bottom",
+            fontsize=8.5, color=viz.INK)
+    a1.set_yscale("log")
+    a1.set_ylabel("Worst offset during the mission (km)")
+    a1.set_title(f"Worst offset by deployment date, {days:.0f}-day missions")
+    a1.legend(ncol=3, loc="lower left", framealpha=0)
+    viz.annotate(a1, "offsets clipped at 1 km for the log axis", loc="upper right")
+    fig.autofmt_xdate()
+
+    names = ["Perfect\nknowledge", "LSTM\nforecast", "Persistence"]
+    cols = ["perfect_max_km", "lstm_max_km", "persist_max_km"]
+    colours = [viz.MUTED, viz.PREDICTED, viz.BASELINE]
+    succ = [float((scan[c] <= hold_km).mean() * 100) for c in cols]
+    a2.bar(names, succ, color=colours, edgecolor=viz.SURFACE, linewidth=2, width=.6)
+    for n, v in zip(names, succ):
+        a2.text(n, v, f"{v:.0f}%", ha="center", va="bottom", fontsize=9.5,
+                color=viz.INK)
+    a2.set_ylim(0, 105)
+    a2.set_ylabel(f"Deployments held within {hold_km:.0f} km (%)")
+    a2.set_title("Mission success rate")
+    viz.finish(fig, C.FIGURES / "airship_scenarios.png", viz.SOURCE_NOTE)
+
+    return {f"success_rate_pct_{c.split('_')[0]}": round(v, 1)
+            for c, v in zip(cols, succ)}
+
+
+def pick_contrast_window(df: pd.DataFrame, days: float,
+                         max_airspeed: float) -> pd.Timestamp:
+    """Find the stretch where the choice of altitude matters most.
+
+    A uniformly calm window makes a pretty barb chart that demonstrates nothing:
+    every level is flyable, so there is no decision to take. The informative
+    window is the one where the levels disagree - some flyable, some not - which
+    is exactly the case the altitude-selection argument rests on.
+    """
+    nsteps = int(days * 24 / C.STEP_HOURS)
+    feas = pd.DataFrame(
+        {lev: (df[f"speed{lev}"] <= max_airspeed).astype(float)
+         for lev in C.LEVELS_HPA},
+        index=df.index).rolling(nsteps).mean()
+    spread = feas.max(axis=1) - feas.min(axis=1)
+    if not spread.notna().any():
+        return df.index[0]
+    end = spread.idxmax()
+    return df.index[max(0, df.index.get_loc(end) - nsteps + 1)]
+
+
+def fig_wind_barbs(df: pd.DataFrame, start, days: float, max_airspeed: float):
+    """Time-height section of wind barbs over a deployment window.
+
+    This is the display a flight planner actually reads: time along the bottom,
+    altitude up the side, and a barb at each level saying where the wind is going
+    and how hard. Reading down a column answers the operational question
+    directly - at this hour, which of the three levels is flyable?
+
+    Barbs are drawn in m/s rather than the meteorological default of knots, since
+    every other number in this project is m/s and the airspeed limit it is
+    compared against is too.
+    """
+    import matplotlib.pyplot as plt
+    nsteps = int(days * 24 / C.STEP_HOURS)
+    sub = df.loc[start:].iloc[:nsteps]
+    if sub.empty:
+        return
+
+    # Thin the barbs so they stay legible; one every 6 h reads cleanly.
+    every = max(1, 6 // C.STEP_HOURS)
+    sub = sub.iloc[::every]
+    x = np.arange(len(sub))
+    levels = C.LEVELS_HPA                       # 50, 30, 10 hPa
+    ypos = np.arange(len(levels))               # evenly spaced, low to high
+
+    fig, ax = plt.subplots(figsize=(13, 4.6))
+    for yi, lev in zip(ypos, levels):
+        u = sub[f"u{lev}"].to_numpy()
+        v = sub[f"v{lev}"].to_numpy()
+        spd = np.hypot(u, v)
+        # Colour each barb by whether the vehicle could hold station there.
+        flyable = spd <= max_airspeed
+        for mask, colour in ((flyable, viz.C3), (~flyable, viz.C2)):
+            if mask.any():
+                ax.barbs(x[mask], np.full(mask.sum(), yi), u[mask], v[mask],
+                         length=5.6, color=colour, linewidth=0.9,
+                         barb_increments={"half": 2.5, "full": 5, "flag": 25})
+
+    ax.set_yticks(ypos)
+    ax.set_yticklabels([f"{lev} hPa\n~{alt} km" for lev, alt in
+                        zip(levels, (20.5, 23.8, 31.0))])
+    ax.set_ylim(-0.6, len(levels) - 0.4)
+    step_lbl = max(1, len(sub) // 10)
+    ax.set_xticks(x[::step_lbl])
+    ax.set_xticklabels([t.strftime("%d %b\n%H:%M")
+                        for t in sub.index[::step_lbl]], fontsize=8)
+    ax.set_xlim(-1, len(sub))
+    ax.grid(axis="x", visible=False)
+    ax.set_title("Wind barbs through the deployment window: green is flyable, "
+                 f"orange exceeds the {max_airspeed:g} m/s airspeed limit")
+    viz.annotate(ax, "half barb 2.5 m/s, full barb 5 m/s, flag 25 m/s; "
+                     "barb points the way the wind goes", loc="lower left")
+    viz.finish(fig, C.FIGURES / "airship_wind_barbs.png", viz.SOURCE_NOTE)
+
+
 def fig_altitude_choice(df: pd.DataFrame, max_airspeed: float):
     """Altitude as a control lever: the calmest of three levels beats any one level."""
     import matplotlib.pyplot as plt
@@ -231,6 +385,10 @@ def main() -> int:
     ap.add_argument("--tag", default="base")
     ap.add_argument("--max-airspeed", type=float, default=DEFAULT_MAX_AIRSPEED)
     ap.add_argument("--sim-days", type=float, default=10.0)
+    ap.add_argument("--scenario-days", type=float, default=5.0,
+                    help="mission length for the deployment-timing scan")
+    ap.add_argument("--hold-km", type=float, default=200.0,
+                    help="station-keeping radius counted as mission success")
     args = ap.parse_args()
     viz.apply_style()
 
@@ -282,6 +440,25 @@ def main() -> int:
     fig_trajectories(tracks, nsteps * C.STEP_HOURS / 24, args.max_airspeed)
 
     frac = fig_altitude_choice(df, args.max_airspeed)
+    # Drawn over the window where the levels disagree most about feasibility,
+    # since that is the case the altitude argument actually turns on.
+    barb_days = min(args.sim_days, 5.0)
+    barb_start = pick_contrast_window(df, barb_days, args.max_airspeed)
+    fig_wind_barbs(df, barb_start, barb_days, args.max_airspeed)
+    log.info("wind barbs drawn from %s, the window where the three levels "
+             "disagree most about whether station-keeping is possible",
+             str(barb_start)[:10])
+
+    scan = scenario_scan(pred, true, base, ds["test"]["time"], args.max_airspeed,
+                         days=args.scenario_days)
+    scan.to_csv(C.METRICS / "airship_scenarios.csv", index=False)
+    succ = fig_scenarios(scan, args.max_airspeed, args.scenario_days,
+                         hold_km=args.hold_km)
+    log.info("scenarios: %d deployments of %.0f days; held within %.0f km - "
+             "perfect %.0f%%, LSTM %.0f%%, persistence %.0f%%",
+             len(scan), args.scenario_days, args.hold_km,
+             succ["success_rate_pct_perfect"], succ["success_rate_pct_lstm"],
+             succ["success_rate_pct_persist"])
 
     final = {name: float(np.hypot(*t[-1])) for name, t in tracks.items()}
     worst = {name: float(np.hypot(t[:, 0], t[:, 1]).max()) for name, t in tracks.items()}
@@ -299,6 +476,8 @@ def main() -> int:
         "final_offset_km": final,
         "max_offset_km": worst,
         "feasible_time_pct_by_level": frac,
+        "scenarios": {"n": int(len(scan)), "mission_days": args.scenario_days,
+                      "hold_radius_km": args.hold_km, **succ},
         "per_horizon_drift": table.to_dict("records"),
         "headline": (
             f"Using the 6 h forecast, the airship stays within "

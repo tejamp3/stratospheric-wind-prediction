@@ -52,6 +52,14 @@ Airspeed limit assumed: **12 m/s**.
 | 30 hPa | 56% |
 | 10 hPa | 50% |
 | best of three | 70% |
+
+Every possible start time in the test period was then flown as a separate 5-day mission (158 scenarios), counting success as holding within 200 km.
+
+| Controller | Missions held on station |
+|---|---|
+| Perfect knowledge | 53% |
+| Persistence | 29% |
+| LSTM forecast | 10% |
 <!-- /AUTO:airship -->
 
 ## Four findings worth knowing
@@ -70,13 +78,18 @@ a simulated 10-day deployment the LSTM has the better per-forecast error, holdin
 within 123 km at the 90th percentile against persistence's 171 km. Yet persistence
 finishes closer to station, 80 km against 214 km, because the LSTM carries a
 42 km/day bias while persistence carries 4 km/day. Random error partly cancels
-across control intervals; a systematic one adds up on every single step. Any
+across control intervals; a systematic one adds up on every single step. Flying
+all 158 possible 5-day deployments in the test period puts a number on it:
+persistence holds station on 29% of missions, the LSTM on 10%. Any
 station-keeping model should be scored on bias, not only on RMSE.
 
 **Altitude is a control lever, not just a constraint.** The 50, 30 and 10 hPa
 levels often carry very different winds. Station-keeping is feasible 63% of the
 time at 50 hPa alone, but 70% if the vehicle can pick the calmest of the three.
-See `results/figures/airship_altitude_choice.png`.
+The wind-barb section in `results/figures/airship_wind_barbs.png` shows a week in
+January 2023 where the float level and the level above it are both unflyable
+while 10 hPa stays comfortably inside the airspeed limit: the mission is
+possible, but only by climbing.
 
 **Reducing precision buys footprint, not speed, at this model size.** Int8 cuts
 the weight file to a quarter with no measurable accuracy cost, but it is *slower*
@@ -103,7 +116,7 @@ src/
   error_analysis.py  when the model fails, and what that correlates with
   optimize.py        FP16 / int8 variants, latency and footprint profiling
   inference.py       deployable forecaster with calibrated intervals
-  airship.py         forecast error -> station-keeping drift
+  airship.py         drift, deployment scenarios, altitude selection
   make_demo.py       builds results/demo.html, a standalone interactive page
   viz.py             one validated palette and rc block for every figure
   report.py          writes the tables in README.md and skills.md from results/

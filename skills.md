@@ -483,11 +483,38 @@ Airspeed limit assumed: **12 m/s**.
 | 30 hPa | 56% |
 | 10 hPa | 50% |
 | best of three | 70% |
+
+Every possible start time in the test period was then flown as a separate 5-day mission (158 scenarios), counting success as holding within 200 km.
+
+| Controller | Missions held on station |
+|---|---|
+| Perfect knowledge | 53% |
+| Persistence | 29% |
+| LSTM forecast | 10% |
 <!-- /AUTO:airship -->
 
-`src/airship.py` also integrates full 2-D tracks under a controller that replans
-every 6 hours, comparing the model against persistence and against perfect
-knowledge, with airspeed clipped to a realistic limit.
+`src/airship.py` produces four views of the same question.
+
+**One trajectory.** Full 2-D tracks under a controller that replans every 6 hours,
+comparing the model against persistence and against perfect knowledge, with
+airspeed clipped to a realistic limit.
+
+**Every trajectory.** One simulated window says what happened once; an operator
+needs the distribution. Every possible start time in the test period is flown as
+a separate 5-day mission, 158 of them, and scored on whether the vehicle stayed
+within 200 km. This is where the bias result becomes concrete: perfect knowledge
+succeeds on 53% of missions, persistence on 29%, the LSTM on 10%. The model with
+the better per-forecast error completes the fewest missions.
+
+**Which altitude.** A time-height section of wind barbs across 50/30/10 hPa,
+coloured by whether each level is inside the airspeed limit, drawn over the
+window where the three levels disagree most - because a uniformly calm window
+makes a pretty chart that demonstrates nothing. In the window it picks, the float
+level and the one above it are both unflyable for days while 10 hPa stays green.
+
+**When to deploy.** The scenario scan doubles as a deployment-timing product: the
+monsoon months are hopeless at any lead time, and the autumn window is where
+forecast quality starts to matter at all.
 
 Which stretch to simulate turned out to be a decision worth making explicitly.
 Starting at an arbitrary point in the test period lands inside the monsoon
