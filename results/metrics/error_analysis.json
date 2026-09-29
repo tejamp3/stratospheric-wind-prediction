@@ -1,0 +1,39 @@
+{
+ "tag": "base",
+ "n_test_windows": 1301,
+ "correlation_spearman": {
+  "6h": {
+   "speed50": 0.2217,
+   "shear_10_50": 0.0903,
+   "abs_shear": 0.1029,
+   "tendency": 0.086,
+   "t50": 0.0534,
+   "dir_variability": -0.2082
+  },
+  "12h": {
+   "speed50": 0.2308,
+   "shear_10_50": 0.0346,
+   "abs_shear": 0.0742,
+   "tendency": 0.088,
+   "t50": 0.084,
+   "dir_variability": -0.2068
+  },
+  "24h": {
+   "speed50": 0.2132,
+   "shear_10_50": 0.0555,
+   "abs_shear": 0.0494,
+   "tendency": 0.1098,
+   "t50": 0.0529,
+   "dir_variability": -0.195
+  }
+ },
+ "worst_decile_z_shift_6h": {
+  "speed50": 0.405,
+  "shear_10_50": 0.307,
+  "abs_shear": 0.332,
+  "tendency": 0.201,
+  "t50": 0.142,
+  "dir_variability": -0.22
+ },
+ "worst_decile_threshold_ms_6h": 5.694769382476807
+}

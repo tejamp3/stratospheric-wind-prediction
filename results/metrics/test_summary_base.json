@@ -1,0 +1,85 @@
+{
+ "tag": "base",
+ "test_period": [
+  "2024-07-21 09:00:00",
+  "2024-12-30 21:00:00"
+ ],
+ "n_test_windows": 1301,
+ "per_horizon": [
+  {
+   "horizon_h": 6,
+   "model_speed_mae": 2.0198781490325928,
+   "model_speed_rmse": 2.5551300048828125,
+   "model_vector_rmse": 3.7344610691070557,
+   "model_maae_deg": 16.531017303466797,
+   "model_dir_acc_15deg": 66.80032076984763,
+   "model_dir_acc_30deg": 86.12670408981555,
+   "persist_speed_mae": 2.49098801612854,
+   "persist_speed_rmse": 3.135451078414917,
+   "persist_vector_rmse": 5.096012115478516,
+   "persist_maae_deg": 23.14055061340332,
+   "persist_dir_acc_15deg": 52.52606255012029,
+   "persist_dir_acc_30deg": 75.22052927024859,
+   "skill_speed_rmse_pct": 18.508375956721277,
+   "skill_vector_rmse_pct": 26.717971141314884,
+   "n": 1301,
+   "ridge_speed_rmse": 2.360504150390625,
+   "ridge_dir_acc_30deg": 87.24939855653568,
+   "skill_ridge_speed_rmse_pct": 24.715644053871046,
+   "lstm_vs_ridge_pct": -8.245096898473154
+  },
+  {
+   "horizon_h": 12,
+   "model_speed_mae": 2.6285147666931152,
+   "model_speed_rmse": 3.344074010848999,
+   "model_vector_rmse": 4.437255382537842,
+   "model_maae_deg": 18.71196174621582,
+   "model_dir_acc_15deg": 63.672814755412986,
+   "model_dir_acc_30deg": 82.11708099438653,
+   "persist_speed_mae": 3.1237833499908447,
+   "persist_speed_rmse": 3.958573818206787,
+   "persist_vector_rmse": 6.3710103034973145,
+   "persist_maae_deg": 28.15908432006836,
+   "persist_dir_acc_15deg": 46.03047313552526,
+   "persist_dir_acc_30deg": 69.36647955092221,
+   "skill_speed_rmse_pct": 15.52326255813396,
+   "skill_vector_rmse_pct": 30.352406115211483,
+   "n": 1301,
+   "ridge_speed_rmse": 3.0362050533294678,
+   "ridge_dir_acc_30deg": 84.12189254210104,
+   "skill_ridge_speed_rmse_pct": 23.30053214203158,
+   "lstm_vs_ridge_pct": -10.139926392057271
+  },
+  {
+   "horizon_h": 24,
+   "model_speed_mae": 2.7534236907958984,
+   "model_speed_rmse": 3.445296049118042,
+   "model_vector_rmse": 4.506220817565918,
+   "model_maae_deg": 18.443119049072266,
+   "model_dir_acc_15deg": 63.031275060144345,
+   "model_dir_acc_30deg": 82.75862068965517,
+   "persist_speed_mae": 2.893956184387207,
+   "persist_speed_rmse": 3.69042706489563,
+   "persist_vector_rmse": 5.228989124298096,
+   "persist_maae_deg": 21.284896850585938,
+   "persist_dir_acc_15deg": 56.535685645549314,
+   "persist_dir_acc_30deg": 78.58861267040899,
+   "skill_speed_rmse_pct": 6.6423482016307105,
+   "skill_vector_rmse_pct": 13.822333333485318,
+   "n": 1301,
+   "ridge_speed_rmse": 3.2506885528564453,
+   "ridge_dir_acc_30deg": 82.27746591820369,
+   "skill_ridge_speed_rmse_pct": 11.915653779534075,
+   "lstm_vs_ridge_pct": -5.98665461477665
+  }
+ ],
+ "success_criteria": {
+  "skill_vs_persistence_ge_20pct": {
+   "6": false,
+   "12": false,
+   "24": false
+  },
+  "dir_acc_30deg_6h_ge_70pct": true,
+  "dir_acc_15deg_6h": 66.80032076984763
+ }
+}
