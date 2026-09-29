@@ -1,0 +1,85 @@
+{
+ "max_airspeed_ms": 12.0,
+ "sim_days": 10.0,
+ "sim_window_start": "2024-10-27 18:00:00",
+ "sim_window_mean_wind_ms": 4.54,
+ "sim_window_note": "the calmest contiguous window in the test period; an arbitrary window lands in the monsoon jet where no forecast can hold station",
+ "hold_radius_90pct_km": {
+  "6": 123.00701904296875,
+  "12": 296.5091247558594,
+  "24": 593.9850463867188
+ },
+ "final_offset_km": {
+  "Perfect knowledge": 0.0,
+  "LSTM forecast": 214.42033316425213,
+  "Persistence": 80.07096158066629
+ },
+ "max_offset_km": {
+  "Perfect knowledge": 0.0,
+  "LSTM forecast": 220.6450734054699,
+  "Persistence": 188.86209981401367
+ },
+ "feasible_time_pct_by_level": {
+  "50 hPa": 63.40100364963504,
+  "30 hPa": 55.611313868613145,
+  "10 hPa": 50.21669708029197,
+  "best of three": 69.97034671532847
+ },
+ "per_horizon_drift": [
+  {
+   "horizon_h": 6,
+   "model_drift_mean_km": 70.74017333984375,
+   "model_drift_p50_km": 64.81356811523438,
+   "model_drift_p90_km": 123.00701904296875,
+   "model_drift_p95_km": 142.33738708496094,
+   "model_bias_u_ms": 0.2261546105146408,
+   "model_bias_v_ms": -0.4386558532714844,
+   "model_bias_drift_km_per_day": 42.640380859375,
+   "persist_drift_mean_km": 96.51823425292969,
+   "persist_drift_p50_km": 89.94782257080078,
+   "persist_drift_p90_km": 171.12985229492188,
+   "persist_drift_p95_km": 190.77513122558594,
+   "persist_bias_u_ms": -0.04989088699221611,
+   "persist_bias_v_ms": 0.0033413213677704334,
+   "persist_bias_drift_km_per_day": 4.320228576660156,
+   "drift_reduction_pct": 28.120653764732506
+  },
+  {
+   "horizon_h": 12,
+   "model_drift_mean_km": 167.93438720703125,
+   "model_drift_p50_km": 154.03736877441406,
+   "model_drift_p90_km": 296.5091247558594,
+   "model_drift_p95_km": 334.158935546875,
+   "model_bias_u_ms": -0.0016136080957949162,
+   "model_bias_v_ms": -0.4486245810985565,
+   "model_bias_drift_km_per_day": 38.76141357421875,
+   "persist_drift_mean_km": 241.0249786376953,
+   "persist_drift_p50_km": 221.7974395751953,
+   "persist_drift_p90_km": 424.35491943359375,
+   "persist_drift_p95_km": 490.7116394042969,
+   "persist_bias_u_ms": -0.0992964431643486,
+   "persist_bias_v_ms": -0.0016002141637727618,
+   "persist_bias_drift_km_per_day": 8.580327033996582,
+   "drift_reduction_pct": 30.127091456457272
+  },
+  {
+   "horizon_h": 24,
+   "model_drift_mean_km": 343.8435363769531,
+   "model_drift_p50_km": 318.6295471191406,
+   "model_drift_p90_km": 593.9850463867188,
+   "model_drift_p95_km": 674.127685546875,
+   "model_bias_u_ms": -0.13979269564151764,
+   "model_bias_v_ms": -0.23673392832279205,
+   "model_bias_drift_km_per_day": 23.753707885742188,
+   "persist_drift_mean_km": 395.8223876953125,
+   "persist_drift_p50_km": 363.2838439941406,
+   "persist_drift_p90_km": 696.4671630859375,
+   "persist_drift_p95_km": 809.9802856445312,
+   "persist_bias_u_ms": -0.2164505273103714,
+   "persist_bias_v_ms": -0.002098485827445984,
+   "persist_bias_drift_km_per_day": 18.70220375061035,
+   "drift_reduction_pct": 14.714565471419567
+  }
+ ],
+ "headline": "Using the 6 h forecast, the airship stays within 123 km of station in 90% of cases, against 171 km on persistence alone."
+}
