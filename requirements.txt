@@ -1,0 +1,26 @@
+# Stratospheric wind forecasting - pinned to the versions this project was built
+# and validated on. Python 3.11 is the reference interpreter; 3.10-3.12 also work.
+#
+# Install:
+#   python -m venv .venv
+#   .venv/Scripts/python -m pip install -r requirements.txt        (Windows)
+#   .venv/bin/python -m pip install -r requirements.txt            (Linux/macOS)
+#
+# torch is the CPU build. For the smaller CPU-only wheel use:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+torch==2.14.0            # install from the cpu index above to get the CPU-only wheel
+cdsapi==0.7.7
+ecmwf-datastores-client==0.5.3
+xarray==2026.7.0
+netCDF4==1.7.4
+dask==2026.8.0
+pandas==3.0.6
+numpy==2.4.6
+matplotlib==3.11.2
+# scikit-learn is used only for the ridge-regression baseline the LSTM
+# is scored against. seaborn and scipy were dropped: the figures use a
+# custom validated matplotlib palette, so neither was ever imported.
+scikit-learn==1.9.1
+
+pytest==9.1.1
