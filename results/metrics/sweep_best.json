@@ -1,0 +1,15 @@
+{
+ "best_tag": "sw_h128_l1_d02_wd0.001_w24_res",
+ "selected_on": "validation loss; the test split was not consulted",
+ "hidden": 128,
+ "layers": 1,
+ "dropout": 0.2,
+ "residual": true,
+ "weight_decay": 0.001,
+ "input_hours": 24,
+ "val_loss": 0.5367344793906579,
+ "weights": 71942,
+ "n_configurations": 32,
+ "n_train_windows": 6122,
+ "n_raw_files": 36
+}
