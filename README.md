@@ -23,6 +23,8 @@ Held-out test split, chronologically after everything the model was trained on:
 | 24 | 3.45 | 3.69 | 3.25 | 6.64 | 11.92 | 18.44 | 63.03 | 82.76 |
 <!-- /AUTO:metrics -->
 
+![Speed RMSE by lead time for the LSTM, persistence and ridge, and LSTM skill against the 20% target](results/figures/eval_skill_vs_horizon.png)
+
 Against the project's success criteria:
 
 <!-- AUTO:criteria -->
@@ -83,13 +85,17 @@ all 158 possible 5-day deployments in the test period puts a number on it:
 persistence holds station on 29% of missions, the LSTM on 10%. Any
 station-keeping model should be scored on bias, not only on RMSE.
 
+![Simulated 10-day tracks and distance from station for perfect knowledge, the LSTM and persistence](results/figures/airship_trajectories.png)
+
 **Altitude is a control lever, not just a constraint.** The 50, 30 and 10 hPa
 levels often carry very different winds. Station-keeping is feasible 63% of the
 time at 50 hPa alone, but 70% if the vehicle can pick the calmest of the three.
-The wind-barb section in `results/figures/airship_wind_barbs.png` shows a week in
-January 2023 where the float level and the level above it are both unflyable
-while 10 hPa stays comfortably inside the airspeed limit: the mission is
-possible, but only by climbing.
+The wind-barb section below shows five days in January 2023 where the float
+level is unflyable throughout and the level above it almost throughout, while
+10 hPa stays comfortably inside the airspeed limit: the mission is possible, but
+only by climbing.
+
+![Wind barbs at 50, 30 and 10 hPa over 21-25 January 2023, coloured by whether each level is inside the airspeed limit](results/figures/airship_wind_barbs.png)
 
 **Reducing precision buys footprint, not speed, at this model size.** Int8 cuts
 the weight file to a quarter with no measurable accuracy cost, but it is *slower*
