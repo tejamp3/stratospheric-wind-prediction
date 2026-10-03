@@ -75,17 +75,24 @@ a smooth linear function of the recent past. If this were a production decision
 rather than a modelling exercise, ridge would be the honest choice: smaller,
 faster, no training instability, trivially interpretable.
 
-**Cumulative drift is driven by bias, not RMSE, and this flips the ranking.** Over
-a simulated 10-day deployment the LSTM has the better per-forecast error, holding
-within 123 km at the 90th percentile against persistence's 171 km. Yet persistence
-finishes closer to station, 80 km against 214 km, because the LSTM carries a
-42 km/day bias while persistence carries 4 km/day. Random error partly cancels
-across control intervals; a systematic one adds up on every single step. Flying
-all 158 possible 5-day deployments in the test period puts a number on it:
-persistence holds station on 29% of missions, the LSTM on 10%. Any
-station-keeping model should be scored on bias, not only on RMSE.
+**Without position feedback, bias dominates drift; with feedback, it does not.**
+The station-keeping controller here is open-loop: it cancels the forecast wind
+and never corrects for where the vehicle actually is. Under that controller the
+LSTM, despite the better per-forecast error (123 km against persistence's 171 km
+at the 90th percentile), holds station on only 10% of the 158 five-day missions
+in the test period, against persistence's 29%, because its 42 km/day bias adds up
+on every step while random error partly cancels. A later audit
+([docs/AUDIT.md](docs/AUDIT.md)) re-flew the same missions with a basic
+position-feedback term: the LSTM then holds station on 54%, level with a perfect
+forecast, and persistence on 49%. The lesson is narrower than it first looked:
+bias matters most for systems that cannot correct by feedback, such as a free
+balloon that can only change altitude.
 
-![Simulated 10-day tracks and distance from station for perfect knowledge, the LSTM and persistence](results/figures/airship_trajectories.png)
+![Simulated 10-day tracks and distance from station for perfect knowledge, the LSTM and persistence, open loop](results/figures/airship_trajectories.png)
+
+The track above is one illustrative window: the calmest 10 days of the test
+period, chosen using the test data, and flown open loop. It is an example, not
+a result.
 
 **Altitude is a control lever, not just a constraint.** The 50, 30 and 10 hPa
 levels often carry very different winds. Station-keeping is feasible 63% of the
