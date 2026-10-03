@@ -1,0 +1,253 @@
+{
+ "raw_variables": [
+  "u",
+  "v",
+  "t"
+ ],
+ "raw_levels": [
+  50.0,
+  30.0,
+  10.0
+ ],
+ "splits": {
+  "train": [
+   "2022-01-01 21:00:00",
+   "2024-02-06 00:00:00",
+   6122
+  ],
+  "val": [
+   "2024-02-08 00:00:00",
+   "2024-07-19 09:00:00",
+   1300
+  ],
+  "test": [
+   "2024-07-21 09:00:00",
+   "2024-12-30 21:00:00",
+   1301
+  ]
+ },
+ "baselines": [
+  {
+   "h": 6,
+   "persistence_speed_rmse": 3.135451078414917,
+   "persistence_vector_rmse": 5.096012115478516,
+   "persistence_vector_skill_pct": 0.0,
+   "persistence_bias_ms": 0.05000264197587967,
+   "diurnal_persistence_speed_rmse": 2.9598641395568848,
+   "diurnal_persistence_vector_rmse": 4.75606632232666,
+   "diurnal_persistence_vector_skill_pct": 6.670819955849626,
+   "diurnal_persistence_bias_ms": 0.050368569791316986,
+   "climatology_month_hour_speed_rmse": 4.748306751251221,
+   "climatology_month_hour_vector_rmse": 5.7006306648254395,
+   "climatology_month_hour_vector_skill_pct": -11.864543012181402,
+   "climatology_month_hour_bias_ms": 1.8824189901351929,
+   "ridge_speed_rmse": 2.360504150390625,
+   "ridge_vector_rmse": 3.47318696975708,
+   "ridge_vector_skill_pct": 31.845001717957107,
+   "ridge_bias_ms": 0.2705254554748535,
+   "lstm_speed_rmse": 2.5551300048828125,
+   "lstm_vector_rmse": 3.7344610691070557,
+   "lstm_vector_skill_pct": 26.717971141314884,
+   "lstm_bias_ms": 0.49352312088012695
+  },
+  {
+   "h": 12,
+   "persistence_speed_rmse": 3.958573818206787,
+   "persistence_vector_rmse": 6.3710103034973145,
+   "persistence_vector_skill_pct": 0.0,
+   "persistence_bias_ms": 0.09930936992168427,
+   "diurnal_persistence_speed_rmse": 3.846449851989746,
+   "diurnal_persistence_vector_rmse": 6.053776264190674,
+   "diurnal_persistence_vector_skill_pct": 4.979336466188064,
+   "diurnal_persistence_bias_ms": 0.10020297765731812,
+   "climatology_month_hour_speed_rmse": 4.7373833656311035,
+   "climatology_month_hour_vector_rmse": 5.693204402923584,
+   "climatology_month_hour_vector_skill_pct": 10.638907618806618,
+   "climatology_month_hour_bias_ms": 1.8704856634140015,
+   "ridge_speed_rmse": 3.0362050533294678,
+   "ridge_vector_rmse": 4.12337589263916,
+   "ridge_vector_skill_pct": 35.279089246243,
+   "ridge_bias_ms": 0.3383469581604004,
+   "lstm_speed_rmse": 3.344074010848999,
+   "lstm_vector_rmse": 4.437255382537842,
+   "lstm_vector_skill_pct": 30.352406115211483,
+   "lstm_bias_ms": 0.448627769947052
+  },
+  {
+   "h": 24,
+   "persistence_speed_rmse": 3.69042706489563,
+   "persistence_vector_rmse": 5.228989124298096,
+   "persistence_vector_skill_pct": 0.0,
+   "persistence_bias_ms": 0.21646073460578918,
+   "diurnal_persistence_speed_rmse": 3.69042706489563,
+   "diurnal_persistence_vector_rmse": 5.228989124298096,
+   "diurnal_persistence_vector_skill_pct": 0.0,
+   "diurnal_persistence_bias_ms": 0.21646073460578918,
+   "climatology_month_hour_speed_rmse": 4.714292049407959,
+   "climatology_month_hour_vector_rmse": 5.67498254776001,
+   "climatology_month_hour_vector_skill_pct": -8.529247486659886,
+   "climatology_month_hour_bias_ms": 1.8284355401992798,
+   "ridge_speed_rmse": 3.2506885528564453,
+   "ridge_vector_rmse": 4.393744945526123,
+   "ridge_vector_skill_pct": 15.97333937626214,
+   "ridge_bias_ms": 0.26337453722953796,
+   "lstm_speed_rmse": 3.445296049118042,
+   "lstm_vector_rmse": 4.506220817565918,
+   "lstm_vector_skill_pct": 13.822333333485318,
+   "lstm_bias_ms": 0.2749272584915161
+  }
+ ],
+ "bootstrap": {
+  "6": {
+   "lstm_skill_ci95": [
+    14.1,
+    22.6
+   ],
+   "ridge_skill_ci95": [
+    19.9,
+    29.4
+   ],
+   "lstm_minus_ridge_rmse_ci95": [
+    0.128,
+    0.27
+   ]
+  },
+  "12": {
+   "lstm_skill_ci95": [
+    11.2,
+    19.6
+   ],
+   "ridge_skill_ci95": [
+    18.8,
+    27.3
+   ],
+   "lstm_minus_ridge_rmse_ci95": [
+    0.202,
+    0.433
+   ]
+  },
+  "24": {
+   "lstm_skill_ci95": [
+    3.1,
+    9.7
+   ],
+   "ridge_skill_ci95": [
+    6.8,
+    16.2
+   ],
+   "lstm_minus_ridge_rmse_ci95": [
+    0.07,
+    0.311
+   ]
+  }
+ },
+ "effective_independent_blocks": 21,
+ "seeds": [
+  {
+   "seed": 0,
+   "val_loss": 0.5536668300628662,
+   "best_epoch": 3,
+   "skill_6h": 14.442475440145966,
+   "bias_6h_kmday": 47.90283966064453,
+   "skill_12h": 13.432120361404145,
+   "bias_12h_kmday": 41.81342697143555,
+   "skill_24h": 3.2522022255898446,
+   "bias_24h_kmday": 45.1550407409668
+  },
+  {
+   "seed": 1,
+   "val_loss": 0.5470439195632935,
+   "best_epoch": 5,
+   "skill_6h": 17.985116760772062,
+   "bias_6h_kmday": 46.558738708496094,
+   "skill_12h": 15.094851904982226,
+   "bias_12h_kmday": 41.13517761230469,
+   "skill_24h": 5.8004920674267915,
+   "bias_24h_kmday": 53.10721969604492
+  },
+  {
+   "seed": 2,
+   "val_loss": 0.5487385392189026,
+   "best_epoch": 6,
+   "skill_6h": 21.09027920616134,
+   "bias_6h_kmday": 42.49645233154297,
+   "skill_12h": 18.790243866008186,
+   "bias_12h_kmday": 39.52579116821289,
+   "skill_24h": 8.487055143195136,
+   "bias_24h_kmday": 25.504911422729492
+  },
+  {
+   "seed": 3,
+   "val_loss": 0.5478283166885376,
+   "best_epoch": 4,
+   "skill_6h": 15.50216389812665,
+   "bias_6h_kmday": 50.238285064697266,
+   "skill_12h": 13.131393922544587,
+   "bias_12h_kmday": 71.95703887939453,
+   "skill_24h": 4.468054412323251,
+   "bias_24h_kmday": 64.75340270996094
+  },
+  {
+   "seed": 4,
+   "val_loss": 0.5455547571182251,
+   "best_epoch": 4,
+   "skill_6h": 18.115167361352167,
+   "bias_6h_kmday": 43.43986129760742,
+   "skill_12h": 16.603573399330816,
+   "bias_12h_kmday": 44.21107482910156,
+   "skill_24h": 7.2527131187982405,
+   "bias_24h_kmday": 44.67766189575195
+  }
+ ],
+ "spatial": [
+  {
+   "site": "20.0N 80.0E",
+   "persist_vrmse_6h": 5.096012115478516,
+   "lstm_transferred_skill_6h": 26.717971141314884,
+   "ridge_transferred_skill_6h": 31.845001717957107,
+   "ridge_local_skill_6h": 31.845001717957107
+  },
+  {
+   "site": "30.0N 70.0E",
+   "persist_vrmse_6h": 4.409233570098877,
+   "lstm_transferred_skill_6h": 21.577533626918534,
+   "ridge_transferred_skill_6h": 29.29721992383771,
+   "ridge_local_skill_6h": 32.81574165076212
+  },
+  {
+   "site": "10.0N 90.0E",
+   "persist_vrmse_6h": 4.3984055519104,
+   "lstm_transferred_skill_6h": 16.290829753499654,
+   "ridge_transferred_skill_6h": 18.437895193311018,
+   "ridge_local_skill_6h": 24.478684970119115
+  },
+  {
+   "site": "16.5N 80.5E",
+   "persist_vrmse_6h": 4.8511962890625,
+   "lstm_transferred_skill_6h": 22.902080030698773,
+   "ridge_transferred_skill_6h": 27.451159342681365,
+   "ridge_local_skill_6h": 28.04184929449435
+  },
+  {
+   "site": "25.0N 95.0E",
+   "persist_vrmse_6h": 4.392477512359619,
+   "lstm_transferred_skill_6h": 21.25059421758845,
+   "ridge_transferred_skill_6h": 27.83571923206733,
+   "ridge_local_skill_6h": 29.555864486582433
+  }
+ ],
+ "station_keeping_feedback": {
+  "perfect_open": 53.2,
+  "perfect_fb": 54.4,
+  "lstm_open": 9.5,
+  "lstm_fb": 54.4,
+  "persist_open": 29.1,
+  "persist_fb": 49.4
+ },
+ "free_balloon": {
+  "median_24h_displacement_km": 587.1731514810056,
+  "p90_24h_displacement_km": 1688.244110388501,
+  "frac_exit_domain_within_72h": 0.43666666666666665,
+  "median_speed_50hPa_at_station_ms": 8.404236793518066
+ }
+}
