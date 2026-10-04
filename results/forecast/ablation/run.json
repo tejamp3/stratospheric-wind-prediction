@@ -1,0 +1,54 @@
+{
+ "started": "2026-10-04T13:24:04",
+ "git_commit": "b852391c2538cd879b3ecc4278e8326c10c7330f",
+ "git_dirty": true,
+ "python": "3.11.9",
+ "config": {
+  "name": "forecast",
+  "data_glob": "data/era5/era5_*.nc",
+  "load_stride": 4,
+  "first_year": 2015,
+  "test_years": [
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "embargo_days": 3,
+  "history_hours": 24,
+  "horizons_hours": [
+   6,
+   12,
+   24,
+   48,
+   72
+  ],
+  "cell_stride": 1,
+  "issue_stride_hours": 6,
+  "bootstrap_block_days": 8,
+  "n_boot": 1000,
+  "models": [
+   "persistence",
+   "tide_persistence",
+   "climatology",
+   "moving_average",
+   "linear",
+   "ridge",
+   "gradient_boosting",
+   "lstm",
+   "tcn"
+  ],
+  "out_dir": "results/forecast"
+ },
+ "data": {
+  "n_files": 132,
+  "sha256": "36acfc4d5813d04a863eb6adb14be189ca69ae23e47525e8857a6357dfb7c85a",
+  "source": "manifest"
+ },
+ "test_year": 2025,
+ "minutes": 3.24,
+ "versions": {
+  "numpy": "2.4.6",
+  "sklearn": "1.9.1"
+ }
+}

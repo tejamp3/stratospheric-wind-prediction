@@ -1,0 +1,22 @@
+{
+ "started": "2026-10-03T15:09:38",
+ "git_commit": "f57a87351594063787f00a2756d3cda5c8125d96",
+ "git_dirty": true,
+ "python": "3.11.9",
+ "config": {
+  "missions": 40,
+  "days": 4.0,
+  "false_alarms_per_day": 0.5,
+  "seed": 0,
+  "out": "results/anomaly"
+ },
+ "data": {
+  "n_files": 0
+ },
+ "n_events": 82,
+ "minutes": 0.25,
+ "versions": {
+  "numpy": "2.4.6",
+  "sklearn": "1.9.1"
+ }
+}

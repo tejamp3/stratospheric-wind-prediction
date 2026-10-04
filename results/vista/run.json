@@ -1,0 +1,33 @@
+{
+ "started": "2026-10-04T23:29:08",
+ "git_commit": "fd17c5b97f97e8296443bfb9f56e1ce4f36689bf",
+ "git_dirty": true,
+ "python": "3.11.9",
+ "config": {
+  "profiles": 2000,
+  "seed": 0
+ },
+ "data": {
+  "n_files": 1,
+  "sha256": "2e84adfdca3b799f950e145dd746b192c28330ca3f3ba82e0f9fe42765ae43f9",
+  "source": "names+sizes"
+ },
+ "summary": {
+  "profiles": 2000,
+  "consistent_profiles": 965,
+  "median_km_from_raichur_town": 117.21325239997533,
+  "share_within_80km_of_raichur_town": 0.00932642487046632,
+  "median_landing": [
+   16.468767206983067,
+   78.42451238195544
+  ],
+  "median_distance_flown_km": 235.43155952539072,
+  "straight_line_km": 350.5886099369239,
+  "needed_mean_speed_ms": 12.98476333099718
+ },
+ "minutes": 0.39,
+ "versions": {
+  "numpy": "2.4.6",
+  "sklearn": "1.9.1"
+ }
+}

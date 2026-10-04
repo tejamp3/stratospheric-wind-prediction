@@ -1,0 +1,13 @@
+{
+ "profiles": 2000,
+ "consistent_profiles": 965,
+ "median_km_from_raichur_town": 117.21325239997533,
+ "share_within_80km_of_raichur_town": 0.00932642487046632,
+ "median_landing": [
+  16.468767206983067,
+  78.42451238195544
+ ],
+ "median_distance_flown_km": 235.43155952539072,
+ "straight_line_km": 350.5886099369239,
+ "needed_mean_speed_ms": 12.98476333099718
+}

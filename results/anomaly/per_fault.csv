@@ -1,0 +1,33 @@
+detector,fault,n,recall,median_latency_min
+threshold,altimeter drift,6,0.0,
+threshold,altimeter bias,8,0.125,122.0
+threshold,gps jump,16,1.0,0.0
+threshold,envelope leak,12,1.0,91.0
+threshold,battery degradation,9,0.2222222222222222,156.5
+threshold,thermal excursion,8,0.875,33.0
+threshold,altitude loss,10,1.0,0.0
+threshold,comms failure,13,1.0,0.0
+residual + CUSUM,altimeter drift,6,1.0,10.0
+residual + CUSUM,altimeter bias,8,1.0,0.0
+residual + CUSUM,gps jump,16,1.0,0.0
+residual + CUSUM,envelope leak,12,1.0,11.5
+residual + CUSUM,battery degradation,9,0.5555555555555556,134.0
+residual + CUSUM,thermal excursion,8,1.0,4.0
+residual + CUSUM,altitude loss,10,1.0,0.0
+residual + CUSUM,comms failure,13,1.0,1.0
+isolation forest,altimeter drift,6,0.3333333333333333,57.5
+isolation forest,altimeter bias,8,0.5,83.5
+isolation forest,gps jump,16,0.5,149.5
+isolation forest,envelope leak,12,0.25,101.0
+isolation forest,battery degradation,9,0.4444444444444444,88.0
+isolation forest,thermal excursion,8,0.25,205.0
+isolation forest,altitude loss,10,0.8,0.0
+isolation forest,comms failure,13,0.23076923076923078,3.0
+autoencoder,altimeter drift,6,1.0,5.5
+autoencoder,altimeter bias,8,1.0,0.0
+autoencoder,gps jump,16,1.0,0.0
+autoencoder,envelope leak,12,1.0,143.5
+autoencoder,battery degradation,9,1.0,239.0
+autoencoder,thermal excursion,8,1.0,0.0
+autoencoder,altitude loss,10,1.0,0.0
+autoencoder,comms failure,13,1.0,0.0

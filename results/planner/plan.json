@@ -1,0 +1,27 @@
+{
+ "p_success_end_within_radius": 0.0625,
+ "mean_time_within_radius": 0.032543103448275865,
+ "expected_arrival_h": 29.25,
+ "p_arrive": 0.25,
+ "p_leave_domain": 0.0,
+ "p_battery_empty": 0.0,
+ "worst_distance_p90_km": 673.6781327627389,
+ "go": false,
+ "median_scenario": 61,
+ "recommended_altitude_km_every_6h": [
+  23.53,
+  24.87,
+  22.19,
+  22.19,
+  22.19,
+  22.19,
+  22.19,
+  22.19,
+  23.53,
+  22.19,
+  22.19,
+  20.85,
+  20.85
+ ],
+ "forecast_model": "lstm"
+}

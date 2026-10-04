@@ -1,0 +1,11 @@
+component,proposed_location,p50_ms,p95_ms,peak_python_mb,size_kb,measured_on,note
+forecast one column (ridge),ground (or onboard fallback),0.2687500000320142,0.4337699992902344,0.006488,14.2109375,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+forecast one column (gradient_boosting),ground (or onboard fallback),391.23865000146907,417.32349499889096,0.02547,56675.5263671875,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+forecast one column (lstm),ground (or onboard fallback),0.5216999998083338,0.5689349985914305,0.00596,121.4716796875,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+Kalman filter step,onboard,0.31524999940302223,0.471379999180499,0.008921,0.328125,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+"MPC decision, point forecast (135 plans)",onboard,36.601849998987745,37.85998999974254,0.27884,,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+"MPC decision, + best 15 plans x 8 scenarios",onboard,76.7990500007727,79.16088000238233,0.28222,,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+anomaly: residual + CUSUM (one day of telemetry),onboard,75.10769999862532,79.47381999911158,0.474531,0.8984375,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)","cost of scoring 1,440 minutes"
+anomaly: autoencoder (one day of telemetry),onboard,13.996900001075119,16.22593999854871,0.082412,40.572265625,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)","cost of scoring 1,440 minutes"
+anomaly: isolation forest (one day of telemetry),onboard,53.49539999951958,55.294240001239814,0.113186,2893.9287109375,"AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)","cost of scoring 1,440 minutes"
+"forecast uplink per cycle (21 x 21 cells, float16)",ground -> balloon,,,,51.6796875,computed,5 levels x 6 lead times; every 6 h

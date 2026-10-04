@@ -1,0 +1,52 @@
+{
+ "started": "2026-10-04T14:14:06",
+ "git_commit": "b852391c2538cd879b3ecc4278e8326c10c7330f",
+ "git_dirty": true,
+ "python": "3.11.9",
+ "config": {
+  "name": "experiment",
+  "data_glob": "data/era5/era5_*.nc",
+  "load_start": "2024-12-01",
+  "load_end": "2025-12-31",
+  "forecast_dir": "results/forecast",
+  "test_year": 2025,
+  "history_hours": 24,
+  "horizons_hours": [
+   6,
+   12,
+   24,
+   48,
+   72
+  ],
+  "band_hpa": [
+   50,
+   20
+  ],
+  "band_margin_m": 200,
+  "band_grid": 5,
+  "structure_kg": 120,
+  "seed": 0,
+  "out_dir": "results",
+  "forecast_models": [
+   "persistence",
+   "ridge",
+   "gradient_boosting"
+  ],
+  "trajectory_starts": 600,
+  "trajectory_members": 30,
+  "missions": 1000,
+  "mission_hours": 72,
+  "scenarios": 8
+ },
+ "data": {
+  "n_files": 132,
+  "sha256": "36acfc4d5813d04a863eb6adb14be189ca69ae23e47525e8857a6357dfb7c85a",
+  "source": "manifest"
+ },
+ "machine": "AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD (development PC, 1 thread)",
+ "minutes": 1.48,
+ "versions": {
+  "numpy": "2.4.6",
+  "sklearn": "1.9.1"
+ }
+}
