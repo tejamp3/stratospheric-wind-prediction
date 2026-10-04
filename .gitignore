@@ -1,0 +1,35 @@
+# Raw ERA5 data: re-downloadable with `python -m stratoballoon.data.era5`.
+# The manifest (file checksums) is committed so results can cite their data.
+data/era5/*.nc
+data/era5/*.part
+data/era5/download*
+# Scratch data kept locally, never committed
+data/raw/
+data/processed/
+# Radiosonde soundings (IGRA2) and the single-day VISTA download
+data/obs/
+data/raw_case/
+
+# Large regenerable experiment arrays and fitted models; tables, figures and
+# run.json are committed
+results/**/*.npy
+results/**/*.pkl
+results/*.log
+results/*.err
+results/cache/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Credentials - NEVER commit
+.cdsapirc
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store

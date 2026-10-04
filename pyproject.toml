@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stratoballoon"
+version = "0.2.0"
+description = "Wind forecasting, uncertainty and altitude control for a simulated super-pressure balloon, driven by ERA5"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["stratoballoon*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["needs_data: requires downloaded ERA5 files; skipped otherwise"]

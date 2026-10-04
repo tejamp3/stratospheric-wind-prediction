@@ -1,0 +1,12 @@
+# Example mission for experiments/plan_mission.py, dated inside the 2025 test year.
+# Launch from Vijayawada (Red Balloon's VISTA launch site) and try to stay
+# within 50 km of a station over Hyderabad for three days.
+mission:
+  launch_time: "2025-03-15T00:00"
+  launch_lat: 16.51
+  launch_lon: 80.63
+  target_lat: 17.39
+  target_lon: 78.49
+  duration_h: 72
+  radius_km: 50
+  max_risk: 0.3

@@ -1,0 +1,23 @@
+# Forecasting ladder (ERA5 2015-2025, 6-hourly, 100-20 hPa, wide domain).
+#
+# Rolling-origin evaluation: each of 2022, 2023 and 2024 is a test year in turn,
+# trained on every earlier year and validated on the year before. 2025 is the
+# final hold-out: it is scored once, by experiment.yaml, after every choice
+# has been made on the earlier years.
+experiment:
+  name: forecast
+  data_glob: data/era5/era5_*.nc
+  load_stride: 4          # thin the grid when loading 11 years (memory)
+  first_year: 2015
+  test_years: [2022, 2023, 2024, 2025]
+  embargo_days: 3
+  history_hours: 24
+  horizons_hours: [6, 12, 24, 48, 72]
+  cell_stride: 1          # of the already-thinned grid
+  # Every synoptic time. Training on 00 and 12 UTC only left the models unable
+  # to forecast from 06 and 18 UTC, which the simulator also issues at.
+  issue_stride_hours: 6
+  bootstrap_block_days: 8
+  n_boot: 1000
+  models: [persistence, tide_persistence, climatology, moving_average, linear, ridge, gradient_boosting, lstm, tcn]
+  out_dir: results/forecast

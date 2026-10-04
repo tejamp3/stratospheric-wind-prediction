@@ -1,0 +1,22 @@
+# The dataset the balloon simulation and forecasters are built on.
+#
+# Levels: 100-20 hPa is roughly 16.5-26.5 km. ERA5 has no pressure levels
+# between 30 and 20 hPa or between 50 and 30 hPa, so this is the finest vertical
+# spacing the pressure-level product offers in this band.
+# Geopotential is included so altitude is computed, not assumed.
+# 6-hourly: CDS queue time scales with the number of fields requested, not with
+# the area, so time resolution is the lever on a ~10-year download.
+data:
+  name: era5
+  variables: [u_component_of_wind, v_component_of_wind, temperature, geopotential]
+  levels_hpa: [100, 70, 50, 30, 20]
+  step_hours: 6
+  start: "2015-01"
+  end: "2025-12"            # 2025 is the final test year; nothing uses 2026
+  # North, West, South, East. Wide in longitude because a balloon in these
+  # winds travels 600-1,700 km a day, mostly east-west; a 60-100 E box loses
+  # 44% of free balloons within 72 h. CDS cost does not depend on area.
+  area: [40, 40, 0, 130]
+  grid_deg: 1.0
+  raw_dir: data/era5
+  file_prefix: era5

@@ -1,0 +1,28 @@
+# The experiments. The test year 2025 is the final hold-out:
+# nothing in the models, the controllers or this file was tuned on it.
+#
+# Band: 50-20 hPa, about 20.6-26.5 km, which brackets Red Balloon's VISTA
+# design float altitude of ~25 km. Sizing the ballonet for it gives a
+# floor-to-ceiling density ratio of about 2.7, at the generous end of what
+# Loon-class ballonet balloons achieved; this is stated as an assumption.
+experiment:
+  name: experiment
+  data_glob: data/era5/era5_*.nc
+  load_start: "2024-12-01"     # history before the test year, nothing earlier
+  load_end: "2025-12-31"
+  forecast_dir: results/forecast
+  test_year: 2025
+  history_hours: 24
+  horizons_hours: [6, 12, 24, 48, 72]
+  band_hpa: [50, 20]
+  band_margin_m: 200
+  band_grid: 5
+  structure_kg: 120
+  seed: 0
+  out_dir: results
+  forecast_models: [persistence, ridge, gradient_boosting]
+  trajectory_starts: 600
+  trajectory_members: 30
+  missions: 1000
+  mission_hours: 72
+  scenarios: 8
