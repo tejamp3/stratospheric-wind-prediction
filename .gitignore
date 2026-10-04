@@ -33,3 +33,6 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Private preparation notes: never published
+notes/
